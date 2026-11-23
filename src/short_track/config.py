@@ -1,0 +1,93 @@
+"""Shared game settings: rink geometry, controls, colors, and race records."""
+import math
+
+# Track geometry in meters.
+LAP_LEN = 111.12
+CURVE_R = 8.5
+CURVE_LEN = math.pi * CURVE_R
+STRAIGHT_LEN = (LAP_LEN - 2 * CURVE_LEN) / 2
+HALF_STR = STRAIGHT_LEN / 2
+RINK_W, RINK_H = 60.0, 30.0
+MAT = 0.7
+U_BLOCKS = -0.5
+U_MATS = 6.0
+# Отступ границы от матов на виражах; на прямых остаётся U_MATS.
+MAT_CURVE_INSET = 0.9
+SEG_B = [
+    HALF_STR,
+    HALF_STR + CURVE_LEN,
+    HALF_STR + CURVE_LEN + STRAIGHT_LEN,
+    HALF_STR + 2 * CURVE_LEN + STRAIGHT_LEN,
+    LAP_LEN,
+]
+SECTOR_NAMES = [
+    "\u041f\u0440\u044f\u043c\u0430\u044f (\u0441\u0442\u0430\u0440\u0442)",
+    "\u041f\u043e\u0432\u043e\u0440\u043e\u0442 1",
+    "\u041f\u0440\u044f\u043c\u0430\u044f (\u0434\u0430\u043b\u044c\u043d\u044f\u044f)",
+    "\u041f\u043e\u0432\u043e\u0440\u043e\u0442 2",
+    "\u041f\u0440\u044f\u043c\u0430\u044f (\u0444\u0438\u043d\u0438\u0448)",
+]
+
+# Race distances and record pace used by the ghost.
+DISTANCES = [500, 1000, 1500]
+WORLD_RECORDS = {500: 39.505, 1000: 80.875, 1500: 127.943}
+
+# Controls and movement tuning.
+A_MOVES_INWARD = True
+INWARD_KEY = "A" if A_MOVES_INWARD else "D"
+OUTWARD_KEY = "D" if A_MOVES_INWARD else "A"
+STRAIGHT_PUSH_IMPULSE = 2.8
+STRAIGHT_DRAG = 1.65
+LAT_ACC = 4.2
+START_ACC = 5.0
+START_TIME = 3.0
+START_RATE_FULL = 6.5
+COUNTDOWN = 3.0
+STAMINA_CAP_EXP = 0.95
+MAX_SPEED_SCALE = 0.90
+PUSH_STAMINA_SCALE = 0.45
+CROSS_STEP_STAMINA_COST = 0.16
+CROSS_STEP_MISS_COST = 0.40
+ACTION_MISS_STAMINA_COST = 0.80
+ACTION_MISS_SPEED_COST = 0.10
+BASE_STAMINA_DRAIN = 0.35
+CURVE_CONTROL_STAMINA_DRAIN = 0.20
+START_STAMINA_DRAIN = 1.2
+
+# Аэродинамический мешок в массовом забеге.
+DRAFT_MAX_SAVING = 0.30
+DRAFT_FULL_DISTANCE = 1.2
+DRAFT_MAX_DISTANCE = 5.2
+DRAFT_LATERAL_RANGE = 1.25
+DRAFT_LATERAL_OFFSET = 0.2
+DRAFT_BOOST_MIN_STRENGTH = 0.55
+DRAFT_BOOST_EXIT_STRENGTH = 0.22
+DRAFT_BOOST_BUILD_TIME = 0.45
+DRAFT_BOOST_DURATION = 0.60
+DRAFT_BOOST_COOLDOWN = 3.0
+DRAFT_BOOST_ACCEL = 1.8
+DRAFT_BOOST_STAMINA_COST = 1.0
+RACE_OPPONENT_COUNTS = {500: 5, 1000: 6, 1500: 7}
+NPC_SPEED_SCALE = 1.03
+NPC_ACTION_SCALE = 1.08
+NPC_REGEN_SCALE = 1.10
+NPC_PACK_LANE_MAX = 3.0  # Обычная линия группы, чтобы не прижиматься к матам.
+NPC_PASS_LANE_MAX = 4.4  # Внешний предел для обгона; круговые могут ехать шире.
+
+# Display dimensions and colors.
+W, H = 1280, 720
+SCALE = 19.0
+CX, CY = W // 2, H // 2
+BG = (196, 219, 231)
+ICE = (226, 239, 246)
+BAND = (214, 232, 243)
+INFIELD = (184, 210, 226)
+MATS_COL = (27, 66, 104)
+LINE_COL = (128, 176, 204)
+GOLD = (255, 196, 66)
+WHITE = (255, 255, 255)
+PANEL = (14, 30, 48, 228)
+GREEN, YELLOW, REDC = (96, 206, 128), (240, 200, 80), (228, 84, 72)
+
+# Performance grades by average speed in meters per second.
+GRADES = (12.0, 11.2, 10.2, 9.0)
