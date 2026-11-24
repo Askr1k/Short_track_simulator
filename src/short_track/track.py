@@ -3,6 +3,7 @@ import math
 
 from .config import CURVE_R, HALF_STR, LAP_LEN, MAT_CURVE_INSET, SEG_B, U_MATS
 
+
 def zone_of(s):
     """('S'|'C', индекс сегмента 0..4) для длины пути s (S — прямая, C — поворот)."""
     s %= LAP_LEN

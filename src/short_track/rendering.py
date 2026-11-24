@@ -109,7 +109,8 @@ def build_track(distance):
     return surf
 
 
-def draw_skater(screen, x, y, heading, color, name, font, speed):
+def draw_skater(screen, x, y, heading, color, name, font, speed,
+                outline_color=(20, 30, 44)):
     cx, cy = to_px(x, y)
     L, Wd = 15.0, 7.0                       # полуоси в пикселях (чуть крупнее реальных)
     pts = []
@@ -121,8 +122,9 @@ def draw_skater(screen, x, y, heading, color, name, font, speed):
     shadow = [(px + 2, py + 3) for px, py in pts]
     pygame.draw.polygon(screen, (150, 180, 200), shadow)
     pygame.draw.polygon(screen, color, pts)
-    pygame.draw.polygon(screen, (20, 30, 44), pts, 2)
+    pygame.draw.polygon(screen, outline_color, pts, 3)
     nose = (cx + (L - 2) * math.cos(heading), cy + (L - 2) * math.sin(heading))
     pygame.draw.circle(screen, (250, 240, 220), (int(nose[0]), int(nose[1])), 4)
     pygame.draw.circle(screen, (20, 30, 44), (int(cx), int(cy)), 3)
-    draw_text(screen, font, name, (cx, cy - 22), (22, 40, 60), "center")
+    if name:
+        draw_text(screen, font, name, (cx, cy - 22), (22, 40, 60), "center")

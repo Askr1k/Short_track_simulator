@@ -56,6 +56,7 @@ START_STAMINA_DRAIN = 1.2
 
 # Аэродинамический мешок в массовом забеге.
 DRAFT_MAX_SAVING = 0.30
+DRAFT_SPEED_DRAG_REDUCTION = 0.45
 DRAFT_FULL_DISTANCE = 1.2
 DRAFT_MAX_DISTANCE = 5.2
 DRAFT_LATERAL_RANGE = 1.25
@@ -63,16 +64,17 @@ DRAFT_LATERAL_OFFSET = 0.2
 DRAFT_BOOST_MIN_STRENGTH = 0.55
 DRAFT_BOOST_EXIT_STRENGTH = 0.22
 DRAFT_BOOST_BUILD_TIME = 0.45
-DRAFT_BOOST_DURATION = 0.60
+DRAFT_BOOST_DURATION = 0.85
 DRAFT_BOOST_COOLDOWN = 3.0
-DRAFT_BOOST_ACCEL = 1.8
+DRAFT_BOOST_ACCEL = 2.4
 DRAFT_BOOST_STAMINA_COST = 1.0
 RACE_OPPONENT_COUNTS = {500: 5, 1000: 6, 1500: 7}
 NPC_SPEED_SCALE = 1.03
 NPC_ACTION_SCALE = 1.08
 NPC_REGEN_SCALE = 1.10
 NPC_PACK_LANE_MAX = 3.0  # Обычная линия группы, чтобы не прижиматься к матам.
-NPC_PASS_LANE_MAX = 4.4  # Внешний предел для обгона; круговые могут ехать шире.
+# Внешний предел для обгона; круговые могут ехать шире.
+NPC_PASS_LANE_MAX = 4.4
 
 # Display dimensions and colors.
 W, H = 1280, 720

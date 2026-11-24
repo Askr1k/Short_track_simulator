@@ -1,5 +1,9 @@
 """Athlete stat model and playable roster."""
+import sqlite3
 from dataclasses import dataclass
+from pathlib import Path
+
+ROSTER = []
 
 
 @dataclass(frozen=True)
@@ -23,22 +27,37 @@ class Athlete:
     cross_opt: float = 0.55    # оптимальный интервал между шагами, с
     cross_tol: float = 0.17    # допуск по интервалу, с
     # --- устойчивость в повороте / управление
-    edge_grip: float = 0.88    # доля центростремительной силы, которую держит ребро; снос ∝ (1 - grip)
+    # доля центростремительной силы, которую держит ребро; снос ∝ (1 - grip)
+    edge_grip: float = 0.88
     lateral_agility: float = 1.0       # насколько быстро смещается при A/D
 
 
-ROSTER = [
-    Athlete("Dae-heon", "Универсал: без слабых мест", (222, 62, 52)),
-    Athlete("Stefan", "Спринтер: мощный старт, быстро выдыхается", (52, 112, 226),
-            v_max=16.1, stamina_max=80, stamina_regen=0.13, push_gain=1.05,
-            push_cost=1.35, start_power=1.2, cross_gain=0.42, cross_opt=0.50,
-            cross_tol=0.14, edge_grip=0.86),
-    Athlete("Danil", "Стайер: выносливый и ровный", (38, 158, 92),
-            v_max=14.9, stamina_max=125, stamina_regen=0.23, push_gain=0.78,
-            push_cost=0.95, start_power=0.85, cross_gain=0.45, cross_opt=0.62,
-            cross_tol=0.20, edge_grip=0.89, glide=0.02),
-    Athlete("Mira", "Технарь: держит ребро, мало сносит", (166, 78, 196),
-            v_max=15.8, stamina_max=100, push_gain=0.88, start_power=1.0,
-            cross_gain=0.50, cross_opt=0.56, cross_tol=0.22, edge_grip=0.935,
-            lateral_agility=1.2),
+paths = [
+    Path("data/game_data.db"),
+    Path("ShortTrackSimulator/data/game_data.db"),
 ]
+for path in paths:
+    if not path.is_file():
+        continue
+
+    try:
+        candidate = sqlite3.connect(path)
+        candidate.execute("SELECT 1 FROM Athletes LIMIT 1")
+        game_data = candidate
+        break
+    except sqlite3.Error:
+        if "candidate" in locals():
+            candidate.close()
+
+if game_data is None:
+    raise FileNotFoundError("Не найдена подходящая база game_data.db")
+
+cursor = game_data.cursor()
+cursor.execute("""SELECT * FROM Athletes""")
+athletes = cursor.fetchall()
+for athlete in athletes:
+    name, title, color, *args = athlete
+    color = tuple(int(_) for _ in color.split())
+    ROSTER.append(Athlete(name, title, color, *args))
+
+game_data.close()

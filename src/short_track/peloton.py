@@ -8,7 +8,7 @@ from .config import (
     BASE_STAMINA_DRAIN, CURVE_R, CROSS_STEP_STAMINA_COST,
     DRAFT_BOOST_DURATION, DRAFT_BOOST_STAMINA_COST, DRAFT_FULL_DISTANCE,
     DRAFT_LATERAL_OFFSET, DRAFT_LATERAL_RANGE, DRAFT_MAX_DISTANCE,
-    DRAFT_MAX_SAVING, INWARD_KEY, LAP_LEN, MAX_SPEED_SCALE,
+    DRAFT_MAX_SAVING, DRAFT_SPEED_DRAG_REDUCTION, INWARD_KEY, LAP_LEN, MAX_SPEED_SCALE,
     NPC_ACTION_SCALE, NPC_PACK_LANE_MAX, NPC_PASS_LANE_MAX,
     NPC_REGEN_SCALE, NPC_SPEED_SCALE,
     PUSH_STAMINA_SCALE, RACE_OPPONENT_COUNTS, SEG_B, START_ACC,
@@ -292,7 +292,10 @@ class Opponent:
                 elif clock >= self.action_until:
                     self.action = "ДУГА"
 
-            self.v -= a.glide * (self.v - a.v_floor) * dt
+            draft_drag = 1.0 - DRAFT_SPEED_DRAG_REDUCTION * clamp(
+                draft_strength, 0.0, 1.0
+            )
+            self.v -= a.glide * (self.v - a.v_floor) * draft_drag * dt
             cap = self.speed_cap()
             if self.v > cap:
                 self.v -= 0.9 * (self.v - cap) * dt

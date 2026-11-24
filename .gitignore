@@ -3,6 +3,6 @@ __pycache__/
 .venv/
 venv/
 build/
-dist/
 *.egg-info/
 .mypy_cache/
+database.py

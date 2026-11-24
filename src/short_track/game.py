@@ -199,14 +199,19 @@ class Game:
             for opponent in self.peloton.opponents:
                 ox, oy, oh = track_pos(opponent.s, opponent.u)
                 draw_skater(s, ox, oy, oh, opponent.athlete.color,
-                            opponent.name, f["tiny"], opponent.v)
+                            None, f["tiny"], opponent.v)
 
         # след
         if len(r.trail) > 2:
             pts = [to_px(x, y) for x, y in r.trail]
             pygame.draw.lines(s, (120, 160, 190), False, pts, 2)
         x, y, hd = track_pos(r.track_s, r.u)
-        draw_skater(s, x, y, hd, r.a.color, r.a.name, f["tiny"], r.v)
+        red_outline = (
+            r.phase == "countdown" and int(r.cd * 4) % 2 == 0
+        )
+        outline_color = (255, 55, 55) if red_outline else (20, 30, 44)
+        draw_skater(s, x, y, hd, r.a.color, None, f["tiny"], r.v,
+                    outline_color=outline_color)
 
         # ---- верхняя левая панель
         p = pygame.Rect(10, 6, 380, 52)

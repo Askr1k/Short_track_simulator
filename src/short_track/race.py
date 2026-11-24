@@ -7,6 +7,7 @@ from .config import (
     COUNTDOWN, CROSS_STEP_MISS_COST, CROSS_STEP_STAMINA_COST,
     CURVE_CONTROL_STAMINA_DRAIN, CURVE_R, DRAFT_BOOST_DURATION,
     DRAFT_BOOST_STAMINA_COST, DRAFT_MAX_SAVING,
+    DRAFT_SPEED_DRAG_REDUCTION,
     INWARD_KEY, LAT_ACC, LAP_LEN,
     MAX_SPEED_SCALE, OUTWARD_KEY,
     PUSH_STAMINA_SCALE,
@@ -307,7 +308,10 @@ class Race:
                     self.press_zone.pop(name, None)
                 self.say("Чередуй толчки A → D; перед поворотом закончи на D", (200, 220, 255), 2.2)
         else:
-            lam = a.glide * (0.45 if curve else 1.0)
+            draft_drag = 1.0 - DRAFT_SPEED_DRAG_REDUCTION * clamp(
+                draft_strength, 0.0, 1.0
+            )
+            lam = a.glide * (0.45 if curve else 1.0) * draft_drag
             self.v -= lam * (self.v - a.v_floor) * dt                  # затухание
             cap = self.v_cap()
             if self.v > cap:
