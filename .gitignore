@@ -6,3 +6,4 @@ build/
 *.egg-info/
 .mypy_cache/
 database.py
+*.exe
